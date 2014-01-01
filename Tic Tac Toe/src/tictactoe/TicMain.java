@@ -41,7 +41,7 @@ public class TicMain {
 			start = false;
 		}
 
-		Display change = new Display();        
+		Display change = new Display();
 		int row = 0;
 		int winnerNumber = 0;
 		if (start) {
@@ -58,11 +58,11 @@ public class TicMain {
 				if (change.checkWinner(playerValue) == true) {     // Checking for Winner
 					row = 3;
 					winnerNumber = 1;
-				}else if(change.checkWinner(computerValue) == true){
+				} else if (change.checkWinner(computerValue) == true) {
 					row = 3;
 					winnerNumber = 2;
 				}
-				
+
 				int space2 = r.nextInt(9);      // Computer Turn
 				while (!change.getSpace(space2)) {
 					space2 = r.nextInt(9);
@@ -79,16 +79,58 @@ public class TicMain {
 				if (change.checkWinner(playerValue) == true) {     // Checking for Winner
 					row = 3;
 					winnerNumber = 1;
-				}else if(change.checkWinner(computerValue) == true){
+				} else if (change.checkWinner(computerValue) == true) {
 					row = 3;
 					winnerNumber = 2;
 				}
 			}
-			if(winnerNumber == 1){                     //Either the bitch you lost or damn you won part.
-				System.out.println("Congratulations! You win!");
-			}else if(winnerNumber == 2){
-				System.out.println("I'm sorry, you lost.");
+		} else {
+			while (row != 3) {
+				try {                  // 1 Second Delay
+					Thread.sleep(1000);
+				} catch (InterruptedException ex) {
+					Logger.getLogger(TicMain.class.getName()).log(Level.SEVERE, null, ex);
+				}
+
+				int space2 = r.nextInt(9);      // Computer Turn
+				while (!change.getSpace(space2)) {
+					space2 = r.nextInt(9);
+				}
+				System.out.println("The computer will place an " + computerValue + " in grid " + space2);
+				change.setGridSpace(space2, computerValue);
+
+				change.grid();
+
+				if (change.checkWinner(playerValue) == true) {     // Checking for Winner
+					row = 3;
+					winnerNumber = 1;
+				} else if (change.checkWinner(computerValue) == true) {
+					row = 3;
+					winnerNumber = 2;
+				}
+
+				System.out.println("Enter the number of the desired space: "); //   Player Turn
+				int space1 = s.nextInt();
+				while (!change.getSpace(space1)) {
+					System.out.println("That space is taken. Choose another.");
+					space1 = s.nextInt();
+				}
+				change.setGridSpace(space1, playerValue);
+				change.grid();
+
+				if (change.checkWinner(playerValue) == true) {     // Checking for Winner
+					row = 3;
+					winnerNumber = 1;
+				} else if (change.checkWinner(computerValue) == true) {
+					row = 3;
+					winnerNumber = 2;
+				}
 			}
+		}
+		if (winnerNumber == 1) { //Either the bitch you lost or damn you won part.
+			System.out.println("Congratulations! You win!");
+		} else if (winnerNumber == 2) {
+			System.out.println("I'm sorry, you lost.");
 		}
 	}
 
